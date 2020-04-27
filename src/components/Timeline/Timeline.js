@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({

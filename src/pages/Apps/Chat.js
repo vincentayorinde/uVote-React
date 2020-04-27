@@ -22,7 +22,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { Wrapper } from "../../components";
 import classNames from "classnames";
-import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
+import distanceInWordsToNow from "date-fns/formatDistanceToNow";
 import { drawerWidth } from "../../styleVariables";
 import { makeStyles } from "@material-ui/core/styles";
 

@@ -1,5 +1,5 @@
 // Pages
-import { Calendar, Home, Media, Widgets } from './pages';
+import { Calendar, Home, Media, Widgets, AddCandidate, AddParty, ListParties } from './pages';
 
 import AppsIcon from '@material-ui/icons/Apps';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -19,33 +19,33 @@ export default {
             component: Home,
         },
         {
-            path: '/apps',
+            path: '/parties',
             name: 'Political Parties',
             type: 'submenu',
             icon: AppsIcon,
             children: [
                 {
-                    path: '/calendar',
+                    path: '/add-party',
                     name: 'Add Party',
-                    component: Calendar,
+                    component: AddParty,
                 },
                 {
-                    path: '/media',
+                    path: '/list-party',
                     name: 'List Parties',
-                    component: Media,
+                    component: ListParties,
                 },
             ],
         },
         {
-            path: '/apps',
+            path: '/canditates',
             name: 'Candidates',
             type: 'submenu',
             icon: PersonIcon,
             children: [
                 {
-                    path: '/calendar',
+                    path: '/add-candidate',
                     name: 'Add Candidate',
-                    component: Calendar,
+                    component: AddCandidate,
                 },
                 {
                     path: '/media',

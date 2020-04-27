@@ -61,6 +61,13 @@ import Tooltips from './Material/tooltips';
 // Widgets
 import Widgets from './Widgets/Widgets';
 
+// Candidates
+import AddCandidate from './AddCandidate/AddCandidate';
+
+// Political Parties
+import AddParty from './AddParty/AddParty';
+import ListParties from './ListParties/ListParties';
+
 export {
   Home,
   Calendar,
@@ -111,5 +118,8 @@ export {
   Tables,
   Tabs,
   TextFields,
-  Tooltips
+  Tooltips,
+  AddCandidate,
+  AddParty,
+  ListParties
 };
