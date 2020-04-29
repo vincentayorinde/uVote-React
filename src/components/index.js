@@ -18,6 +18,7 @@ import Timeline from './Timeline/Timeline';
 import WeatherCard from './Cards/WeatherCard';
 import Workspace from './Workspace/Workspace';
 import Wrapper from './Wrapper/Wrapper';
+import Alerts from './Alerts/Alerts'
 
 export {
   AppProvider,
@@ -39,5 +40,6 @@ export {
   PostCard,
   ProductCard,
   Message,
-  Example
+  Example,
+  Alerts,
 };

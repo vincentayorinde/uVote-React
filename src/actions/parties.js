@@ -1,8 +1,19 @@
 import axios from 'axios';
-import { GET_PARTIES, UPDATE_PARTY, DELETE_PARTY, ADD_PARTY } from './types';
+import {
+    GET_PARTIES,
+    UPDATE_PARTY,
+    DELETE_PARTY,
+    GET_SUCCESS,
+    GET_ERRORS,
+    CLEAN_UP,
+} from './types';
 
 const url = process.env.REACT_APP_API_URL;
 console.log('the url', url);
+
+export const cleanUp = () => ({
+    type: CLEAN_UP,
+});
 // GET PARTIES
 export const getParties = () => (dispatch) => {
     axios
@@ -41,22 +52,34 @@ export const deleteParty = (id) => (dispatch) => {
 };
 
 export const addParty = (party) => (dispatch) => {
-    console.log('the real party', party);
-    const profileForm = new FormData();
+    const partyData = new FormData();
     Object.keys(party).map(async (key) => {
-        profileForm.append(key, party[key]);
+        partyData.append(key, party[key]);
     });
     axios
-        .post(`${url}/api/v1/parties/add`, profileForm, {
+        .post(`${url}/api/v1/parties/add`, partyData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         })
         .then((res) => {
+            const success = {
+                message: res.data,
+                status: res.status,
+            };
             dispatch({
-                type: ADD_PARTY,
-                payload: res.data,
+                type: GET_SUCCESS,
+                payload: success,
             });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            const errors = {
+                message: err.response.data,
+                status: err.response.status,
+            };
+            dispatch({
+                type: GET_ERRORS,
+                payload: errors,
+            });
+        });
 };
