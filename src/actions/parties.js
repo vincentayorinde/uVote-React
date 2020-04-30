@@ -15,21 +15,43 @@ export const cleanUp = () => ({
     type: CLEAN_UP,
 });
 // GET PARTIES
-export const getParties = () => (dispatch) => {
+export const getParties = () => (dispatch, getState) => {
+     // Headers
+     const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const token = getState().auth.token;
+    // If token, add to headers congig
+    if (token) {
+        config.headers['x-access-token'] = token;
+    } 
     axios
-        .get(`${url}/api/v1/parties`)
+        .get(`${url}/api/v1/parties`, config)
         .then((res) => {
             dispatch({
                 type: GET_PARTIES,
                 payload: res.data,
             });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log('the err', err.response));
 };
 
-export const updateParty = (id, updateData) => (dispatch) => {
+export const updateParty = (id, updateData) => (dispatch, getState) => {
+    // Headers
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const token = getState().auth.token;
+    // If token, add to headers congig
+    if (token) {
+        config.headers['x-access-token'] = token;
+    } 
     axios
-        .put(`${url}/api/v1/parties/${id}`, updateData)
+        .put(`${url}/api/v1/parties/${id}`, updateData, config)
         .then((res) => {
             dispatch({
                 type: UPDATE_PARTY,
@@ -39,9 +61,20 @@ export const updateParty = (id, updateData) => (dispatch) => {
         .catch((err) => console.log(err));
 };
 
-export const deleteParty = (id) => (dispatch) => {
+export const deleteParty = (id) => (dispatch, getState) => {
+     // Headers
+     const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const token = getState().auth.token;
+    // If token, add to headers congig
+    if (token) {
+        config.headers['x-access-token'] = token;
+    } 
     axios
-        .delete(`${url}/api/v1/parties/${id}`)
+        .delete(`${url}/api/v1/parties/${id}`, config)
         .then((res) => {
             dispatch({
                 type: DELETE_PARTY,
@@ -51,17 +84,24 @@ export const deleteParty = (id) => (dispatch) => {
         .catch((err) => console.log(err));
 };
 
-export const addParty = (party) => (dispatch) => {
+export const addParty = (party) => (dispatch, getState) => {
+      // Headers
+      const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+    };
+    const token = getState().auth.token;
+    // If token, add to headers congig
+    if (token) {
+        config.headers['x-access-token'] = token;
+    } 
     const partyData = new FormData();
     Object.keys(party).map(async (key) => {
         partyData.append(key, party[key]);
     });
     axios
-        .post(`${url}/api/v1/parties/add`, partyData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
+        .post(`${url}/api/v1/parties/add`, partyData, config)
         .then((res) => {
             const success = {
                 message: res.data,

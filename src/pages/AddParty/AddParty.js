@@ -124,7 +124,7 @@ const Party = (props) => {
             >
                 <Toolbar>
                     {alert.state ? (
-                        <Alerts text={text} type={type} open={true} />
+                        <Alerts text={text} type={type} open={true} position="right" />
                     ) : (
                         ''
                     )}

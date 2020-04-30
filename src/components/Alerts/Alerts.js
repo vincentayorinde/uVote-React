@@ -92,7 +92,7 @@ const styles2 = theme => ({
   },
 });
 
-const Alerts = ({text, type, open}) => {
+const Alerts = ({text, type, open, position}) => {
   const [state, setState] = useState({
     open: open || false,
   });
@@ -111,7 +111,7 @@ const Alerts = ({text, type, open}) => {
         <Snackbar
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'right',
+            horizontal: position,
           }}
           open={state.open}
           autoHideDuration={6000}
