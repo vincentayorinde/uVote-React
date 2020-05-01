@@ -32,25 +32,15 @@ const styles = (theme) => ({
     },
 });
 
-// const propTypes = {
-//     parties: PropTypes.array.isRequired,
-// };
+
 const Parties = (props) => {
     const { classes, parties } = props;
 
     const [state, setState] = useState({
         columns: [
-            // { title: 'ID', field: 'id' },
             { title: 'Name', field: 'name' },
             { title: 'Bio', field: 'bio' },
             { title: 'Established', field: 'established', type: 'numeric' },
-            // { title: 'Logo', field: 'render', },
-            // { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-            // {
-            //     title: 'Birth Place',
-            //     field: 'birthCity',
-            //     lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-            // },
         ],
         data: [],
     });
@@ -98,24 +88,11 @@ const Parties = (props) => {
                     columns={state.columns}
                     data={state.data}
                     editable={{
-                        // onRowAdd: (newData) =>
-                        //     new Promise((resolve) => {
-                        //         addParty(newData);
-                        //         setTimeout(() => {
-                        //             resolve();
-                        //             setState((prevState) => {
-                        //                 const data = [...prevState.data];
-                        //                 data.push(newData);
-                        //                 return { ...prevState, data };
-                        //             });
-                        //         }, 600);
-                        //     }),
                         onRowUpdate: (newData, oldData) =>
                             new Promise((resolve) => {
                                 setTimeout(() => {
                                     resolve();
                                     if (oldData) {
-                                        console.log('the new data', newData);
                                         updateParty(newData);
                                         setState((prevState) => {
                                             const data = [...prevState.data];
@@ -130,7 +107,6 @@ const Parties = (props) => {
                         onRowDelete: (oldData) =>
                             new Promise((resolve) => {
                                 deleteParty(oldData);
-                                console.log('row data', oldData);
                                 setTimeout(() => {
                                     resolve();
                                     setState((prevState) => {

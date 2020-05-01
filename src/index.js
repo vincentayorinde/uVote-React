@@ -10,13 +10,11 @@ import {
     BrowserRouter,
     Route,
     Switch,
-    HashRouter as Router,
-    Redirect,
 } from 'react-router-dom';
 
 import AppProvider from './components/AppProvider/AppProvider';
 import Dashboard from './containers/Dashboard';
-import React, { useEffect } from 'react';
+import React from 'react';
 import registerServiceWorker from './registerServiceWorker';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';

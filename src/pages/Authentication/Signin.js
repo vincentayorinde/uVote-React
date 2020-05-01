@@ -1,19 +1,18 @@
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { login, cleanUpAuth } from '../../actions/auth';
-import { cleanUp } from '../../actions/errors'
+import { cleanUp } from '../../actions/errors';
 import { Alerts } from '../../components';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -52,13 +51,15 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
     },
+    progress: {
+        marginLeft: theme.spacing(1),
+      },
 }));
 let type;
 let text;
 const Signin = (props) => {
     const [values, setValues] = useState({ email: '', password: '' });
     const [alert, setAlert] = useState({ state: false });
-    console.log('the alert', alert)
     const onChange = (e) => {
         e.persist();
         setValues((prevState) => ({
@@ -68,11 +69,10 @@ const Signin = (props) => {
     };
     const { error, success, history } = props;
     useEffect(() => {
-      console.log('the errors', error)
+        console.log('the errors', error);
         if (error.error) {
             if (Array.isArray(error.message.message)) {
                 let text_ = 'Issues: ';
-                console.log('the text_ >>>', text_);
                 for (let i = 0; i < error.message.message.length; i += 1) {
                     text_ +=
                         ', No. ' + i + ': ' + error.message.message[i].message;
@@ -86,8 +86,12 @@ const Signin = (props) => {
                     setAlert({ state: false });
                 }, 6000);
             } else {
+                console.log('the >>>', error.message);
                 setAlert({ state: true });
-                text = error.message.error || error.message.message;
+                text =
+                    error.message.error ||
+                    error.message ||
+                    error.message.message;
                 type = 'error';
 
                 setTimeout(() => {
@@ -107,17 +111,15 @@ const Signin = (props) => {
                 history && history.push('/parties/list-party');
                 setAlert({ state: false });
             }, 2000);
-            return () => {
-                props.cleanUp_();
-            };
+            // return () => {
+            //     props.cleanUp_();
+            // };
         }
     }, [success, error]);
     const submit = (e) => {
         e.preventDefault();
-        console.log('the values', values);
         props.login(values);
     };
-    console.log('the props', props);
     const classes = useStyles();
     if (props.auth.isAuthenticated) {
         return <Redirect to="/" />;
@@ -127,7 +129,12 @@ const Signin = (props) => {
             <div className={classes.content}>
                 <div className={classes.wrapper}>
                     {alert.state ? (
-                        <Alerts text={text} type={type} open={true} position="center" />
+                        <Alerts
+                            text={text}
+                            type={type}
+                            open={true}
+                            position="center"
+                        />
                     ) : (
                         ''
                     )}
@@ -146,13 +153,15 @@ const Signin = (props) => {
                                         className="block"
                                     />
                                     <Typography variant="caption">
-                                        Sign in with your app id to continue.
+                                        <br></br>
+                                        Sign in with your credentials.
                                     </Typography>
                                 </div>
                                 <TextField
                                     id="username"
-                                    label="Username"
+                                    label="Email"
                                     name="email"
+                                    required
                                     className={classes.textField}
                                     fullWidth
                                     onChange={onChange}
@@ -167,12 +176,14 @@ const Signin = (props) => {
                                     fullWidth
                                     onChange={onChange}
                                     margin="normal"
+                                    required
                                 />
-                                <FormControlLabel
+                                {/* <FormControlLabel
                                     control={<Checkbox value="checkedA" />}
                                     label="Stayed logged in"
                                     className={classes.fullWidth}
-                                />
+                                /> */}
+                                <br></br><br></br>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -180,8 +191,16 @@ const Signin = (props) => {
                                     type="submit"
                                 >
                                     Login
+                                   {
+                                       props.auth.isLoading ? 
+                                       <CircularProgress
+                                        className={classes.progress}
+                                        size={20}
+                                        style={{ color: 'white' }}
+                                    />: ''
+                                   } 
                                 </Button>
-                                <div className="pt-1 text-md-center">
+                                {/* <div className="pt-1 text-md-center">
                                     <Link to="/forgot">
                                         <Button>Forgot password?</Button>
                                     </Link>
@@ -189,7 +208,7 @@ const Signin = (props) => {
                                     <Link to="/signup">
                                         <Button>Create new account.</Button>
                                     </Link>
-                                </div>
+                                </div> */}
                             </form>
                         </CardContent>
                     </Card>
@@ -207,4 +226,6 @@ const mapStateToProps = (state) => ({
 
 export const cleanUp_ = () => cleanUp();
 
-export default connect(mapStateToProps, { login, cleanUpAuth, cleanUp_ })(Signin);
+export default connect(mapStateToProps, { login, cleanUpAuth, cleanUp_ })(
+    Signin
+);

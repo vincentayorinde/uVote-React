@@ -1,125 +1,75 @@
-import axios from 'axios';
+
+import { axiosCall, setErrors } from '../utils';
+
 import {
     GET_PARTIES,
     UPDATE_PARTY,
     DELETE_PARTY,
     GET_SUCCESS,
-    GET_ERRORS,
     CLEAN_UP,
+    LOADING,
 } from './types';
 
-const url = process.env.REACT_APP_API_URL;
-console.log('the url', url);
 
 export const cleanUp = () => ({
     type: CLEAN_UP,
 });
 // GET PARTIES
-export const getParties = () => (dispatch, getState) => {
-     // Headers
-     const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-    const token = getState().auth.token;
-    // If token, add to headers congig
-    if (token) {
-        config.headers['x-access-token'] = token;
-    } 
-    axios
-        .get(`${url}/api/v1/parties`, config)
-        .then((res) => {
-            dispatch({
-                type: GET_PARTIES,
-                payload: res.data,
-            });
-        })
-        .catch((err) => console.log('the err', err.response));
+export const getParties = () => async (dispatch) => {
+    try {
+        const result = await axiosCall({ path: '/api/v1/parties', payload: null, method: 'get' });
+        console.log('the result', result)
+        dispatch({
+            type: GET_PARTIES,
+            payload: result,
+        });
+      } catch (error) {
+        dispatch(setErrors(error));
+      }
 };
 
-export const updateParty = (id, updateData) => (dispatch, getState) => {
-    // Headers
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-    const token = getState().auth.token;
-    // If token, add to headers congig
-    if (token) {
-        config.headers['x-access-token'] = token;
-    } 
-    axios
-        .put(`${url}/api/v1/parties/${id}`, updateData, config)
-        .then((res) => {
-            dispatch({
-                type: UPDATE_PARTY,
-                payload: res.data,
-            });
-        })
-        .catch((err) => console.log(err));
+export const updateParty = (id, updateData) => async (dispatch) => {
+    try {
+        const result = await axiosCall({ path: `/api/v1/parties/${id}`, payload: updateData, method: 'put', });
+        console.log('the result', result)
+        dispatch({
+            type: UPDATE_PARTY,
+            payload: result,
+        });
+      } catch (error) {
+        dispatch(setErrors(error));
+      }
 };
 
-export const deleteParty = (id) => (dispatch, getState) => {
-     // Headers
-     const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-    const token = getState().auth.token;
-    // If token, add to headers congig
-    if (token) {
-        config.headers['x-access-token'] = token;
-    } 
-    axios
-        .delete(`${url}/api/v1/parties/${id}`, config)
-        .then((res) => {
-            dispatch({
-                type: DELETE_PARTY,
-                payload: res.data,
-            });
-        })
-        .catch((err) => console.log(err));
+export const deleteParty = (id) => async (dispatch) => {
+    try {
+        const result = await axiosCall({ path: `/api/v1/parties/${id}`, payload: null, method: 'delete', });
+        console.log('the result', result)
+        dispatch({
+            type: DELETE_PARTY,
+            payload: result,
+        });
+      } catch (error) {
+        dispatch(setErrors(error));
+      }
 };
 
-export const addParty = (party) => (dispatch, getState) => {
-      // Headers
-      const config = {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        },
-    };
-    const token = getState().auth.token;
-    // If token, add to headers congig
-    if (token) {
-        config.headers['x-access-token'] = token;
-    } 
+export const addParty = (party) => async (dispatch) => {
+    dispatch({
+        type: LOADING
+    });
     const partyData = new FormData();
     Object.keys(party).map(async (key) => {
         partyData.append(key, party[key]);
     });
-    axios
-        .post(`${url}/api/v1/parties/add`, partyData, config)
-        .then((res) => {
-            const success = {
-                message: res.data,
-                status: res.status,
-            };
-            dispatch({
-                type: GET_SUCCESS,
-                payload: success,
-            });
-        })
-        .catch((err) => {
-            const errors = {
-                message: err.response.data,
-                status: err.response.status,
-            };
-            dispatch({
-                type: GET_ERRORS,
-                payload: errors,
-            });
+    try {
+        const result = await axiosCall({ path: '/api/v1/parties/add', payload: partyData, method: 'post', contentType:'multipart/form-data' });
+        console.log('the result', result)
+        dispatch({
+            type: GET_SUCCESS,
+            payload: result,
         });
-};
+      } catch (error) {
+        dispatch(setErrors(error));
+      }
+    };

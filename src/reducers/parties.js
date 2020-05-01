@@ -3,10 +3,12 @@ import {
     UPDATE_PARTY,
     DELETE_PARTY,
     ADD_PARTY,
+    LOADING
 } from '../actions/types';
 
 const initialState = {
     parties: [],
+    isLoading: false
 };
 
 export default function (state = initialState, action) {
@@ -30,8 +32,17 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 parties: action.payload,
+                isLoading: false
             };
+            case LOADING:
+                return {
+                    ...state,
+                    isLoading: true
+                };
         default:
-            return state;
+            return {
+                ...state,
+                isLoading: false
+            };
     }
 }

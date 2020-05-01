@@ -15,3 +15,4 @@ export const CLEAN_UP_AUTH = 'CLEAN_UP_AUTH';
 export const GET_ERRORS = 'GET_ERRORS'
 export const GET_SUCCESS = 'GET_SUCCESS'
 export const CLEAN_UP = 'CLEAN_UP'
+export const LOADING = 'LOADING'

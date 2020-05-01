@@ -18,6 +18,7 @@ import EventIcon from '@material-ui/icons/Event';
 import { addParty, cleanUp } from '../../actions/parties';
 import { connect } from 'react-redux';
 import { Alerts } from '../../components';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = (theme) => ({
     margin: {
@@ -37,6 +38,9 @@ const styles = (theme) => ({
     appBar: {
         boxShadow: theme.shadows[0],
     },
+    progress: {
+        marginLeft: theme.spacing(1),
+      },
 });
 let type;
 let text;
@@ -55,7 +59,7 @@ const Party = (props) => {
             ...prevState,
             [e.target.name]: e.target.value,
         }));
-        if (e.target.name == 'logo') {
+        if (e.target.name === 'logo') {
             const [pictureFile] = e.target.files;
             setValues((prevState) => ({ ...prevState, logo: pictureFile }));
         }
@@ -82,7 +86,7 @@ const Party = (props) => {
                 }, 6000);
             } else {
                 setAlert({ state: true });
-                text = error.message.error || error.message.message;
+                text = error.message.error || error.message || error.message.message;
                 type = 'error';
 
                 setTimeout(() => {
@@ -95,7 +99,7 @@ const Party = (props) => {
         }
         if (success.status !== null && success.message) {
             setAlert({ state: true });
-            text = success.message.message;
+            text = success.message.message || success.message;
             type = 'success';
 
             setTimeout(() => {
@@ -215,6 +219,14 @@ const Party = (props) => {
                             color="primary"
                         >
                             Add Party
+                            {
+                                       props.party.isLoading ? 
+                                       <CircularProgress
+                                        className={classes.progress}
+                                        size={20}
+                                        style={{ color: 'white' }}
+                                    />: ''
+                                   } 
                         </Button>
                     </div>
                 </form>
@@ -229,6 +241,7 @@ addParty.propTypes = {
 const mapStateToProps = (state) => ({
     error: state.errors,
     success: state.success,
+    party: state.parties
 });
 export const cleanUp_ = () => cleanUp();
 
