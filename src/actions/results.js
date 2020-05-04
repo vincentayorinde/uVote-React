@@ -22,6 +22,9 @@ export const getResults = () => async (dispatch) => {
             type: GET_RESULTS,
             payload: result,
         });
+        dispatch({
+            type: CLEAN_UP,
+        });
       } catch (error) {
         dispatch(setErrors(error));
       }

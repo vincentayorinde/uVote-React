@@ -1,11 +1,9 @@
-import {
-    GET_RESULTS,
-    LOADING
-} from '../actions/types';
+import { GET_RESULTS, CLEAN_UP, LOADING } from '../actions/types';
 
 const initialState = {
     results: {},
-    isLoading: false
+    isLoading: false,
+    loaded: false
 };
 
 export default function (state = initialState, action) {
@@ -14,17 +12,26 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 results: action.payload,
-                isLoading: false
+                isLoading: false,
+                loaded: true
             };
-            case LOADING:
-                return {
-                    ...state,
-                    isLoading: true
-                };
+        case LOADING:
+            return {
+                ...state,
+                isLoading: true,
+                loaded: false
+            };
+        case CLEAN_UP:
+            return {
+                ...state,
+                isLoading: false,
+                loaded: false
+            };
         default:
             return {
                 ...state,
-                isLoading: false
+                isLoading: false,
+                loaded: false
             };
     }
 }

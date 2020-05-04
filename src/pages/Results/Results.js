@@ -13,7 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import { getResults } from '../../actions/results';
+import { getResults, cleanUp } from '../../actions/results';
 import Grid from '@material-ui/core/Grid';
 import { ProfileCard } from '../../components';
 
@@ -42,25 +42,30 @@ const styles = (theme) => ({
 let candidate = {};
 let name = [];
 let new_ = [];
-
 const Results = (props) => {
-    const { classes, results } = props;
+    const { classes, results, success } = props;
+    console.log('the props', props);
     useEffect(() => {
         props.getResults();
-        
+        return () => {
+            props.cleanUp_();
+        };
     }, []);
-    if (results && results.results.votes) {
+    candidate = {};
+    if (results && results.isLoading === false && results.loaded === true) {
         candidate = results && results.results.votes;
-        if (candidate)
-            Object.keys(candidate).map(function (key, index) {
+        if (candidate) {
+            name = [];
+            Object.keys(candidate).map((key) => {
                 name.push(key + ',' + candidate[key]);
             });
+        }
+        new_ = [];
+        for (let i = 0; i < name.length; i++) {
+            new_.push(name[i].split(/[\s,]+/));
+        }
     }
-    
-    for (let i = 0; i < name.length; i++) {
-        new_.push(name[i].split(/[\s,]+/));
-    }
-
+    if (new_) console.log('the new', new_);
     return (
         <Card className={classes.card}>
             <AppBar
@@ -80,17 +85,17 @@ const Results = (props) => {
                     {new_
                         ? new_.map((candidateScore) => (
                               <Grid
-                                  key={candidateScore[2]}
                                   item
                                   xs={12}
                                   sm={6}
                                   md={4}
+                                  key={candidateScore[3]}
                               >
                                   <ProfileCard
                                       name={`${candidateScore[0]} ${candidateScore[1]}`}
                                       image={`${candidateScore[2]}`}
-                                      location={`${candidateScore[3]}% with ${candidateScore[4]} votes`}
-                                      progress={candidateScore[3]}
+                                      location={`${candidateScore[4]}% with ${candidateScore[5]} votes`}
+                                      progress={candidateScore[4]}
                                   />
                               </Grid>
                           ))
@@ -105,11 +110,12 @@ Results.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
-    rror: state.errors,
+    error: state.errors,
     success: state.success,
     results: state.results,
 });
+export const cleanUp_ = () => cleanUp();
 
 export default withStyles(styles)(
-    connect(mapStateToProps, { getResults })(Results)
+    connect(mapStateToProps, { getResults, cleanUp_ })(Results)
 );
