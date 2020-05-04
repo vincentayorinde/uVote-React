@@ -114,7 +114,7 @@ const Alerts = ({text, type, open, position}) => {
             horizontal: position,
           }}
           open={state.open}
-          autoHideDuration={6000}
+          autoHideDuration={2000}
           onClose={handleClose}
         >
           <MySnackbarContentWrapper

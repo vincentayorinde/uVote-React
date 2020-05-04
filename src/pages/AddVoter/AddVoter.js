@@ -15,10 +15,14 @@ import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import DescriptionIcon from '@material-ui/icons/Description';
 import AppsIcon from '@material-ui/icons/Apps';
 import EventIcon from '@material-ui/icons/Event';
-import { addParty, cleanUp } from '../../actions/parties';
+import { addVoter, cleanUp } from '../../actions/voters';
 import { connect } from 'react-redux';
 import { Alerts } from '../../components';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import PersonIcon from '@material-ui/icons/Person';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 
 const styles = (theme) => ({
     margin: {
@@ -40,32 +44,22 @@ const styles = (theme) => ({
     },
     progress: {
         marginLeft: theme.spacing(1),
-      },
+    },
 });
 let type;
 let text;
-const Party = (props) => {
-    const [values, setValues] = useState({
-        name: '',
-        bio: '',
-        logo: '',
-        established: '',
-    });
+const Voter = (props) => {
+    const [values, setValues] = useState({});
     const [alert, setAlert] = useState({ state: false });
-    console.log('the alert', alert);
+
     const onChange = (e) => {
         e.persist();
         setValues((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }));
-        if (e.target.name === 'logo') {
-            const [pictureFile] = e.target.files;
-            setValues((prevState) => ({ ...prevState, logo: pictureFile }));
-        }
     };
     const { classes, error, success, history } = props;
-    console.log('the props', props);
 
     useEffect(() => {
         if (error.error) {
@@ -86,7 +80,10 @@ const Party = (props) => {
                 }, 2000);
             } else {
                 setAlert({ state: true });
-                text = error.message.error || error.message || error.message.message;
+                text =
+                    error.message.error ||
+                    error.message ||
+                    error.message.message;
                 type = 'error';
 
                 setTimeout(() => {
@@ -103,20 +100,19 @@ const Party = (props) => {
             type = 'success';
 
             setTimeout(() => {
-                history && history.push('/parties/list-party');
+                history && history.push('/voters/list-voters');
                 setAlert({ state: false });
             }, 2000);
             return () => {
                 props.cleanUp_();
             };
         }
-       
     }, [success, error]);
 
     const submit = (e) => {
         e.preventDefault();
         console.log('the values', values);
-        props.addParty(values);
+        props.addVoter(values);
     };
 
     return (
@@ -128,12 +124,17 @@ const Party = (props) => {
             >
                 <Toolbar>
                     {alert.state ? (
-                        <Alerts text={text} type={type} open={true} position="right" />
+                        <Alerts
+                            text={text}
+                            type={type}
+                            open={true}
+                            position="right"
+                        />
                     ) : (
                         ''
                     )}
                     <Typography color="inherit" className="flexSpacer">
-                        Add Party
+                        Add Voter
                     </Typography>
                 </Toolbar>
                 <Alerts />
@@ -142,28 +143,60 @@ const Party = (props) => {
                 <form onSubmit={submit}>
                     <FormControl className={classes.margin}>
                         <InputLabel htmlFor="input-with-icon-adornment">
-                            Enter Political Party Name
+                            Voter ID
                         </InputLabel>
                         <Input
                             id="input-with-icon-adornment"
-                            placeholder="Name"
+                            placeholder="Enter Voter's ID"
                             startAdornment={
                                 <InputAdornment position="start">
-                                    <AppsIcon />
+                                    <PersonIcon />
                                 </InputAdornment>
                             }
-                            name="name"
+                            name="voter_id"
                             onChange={onChange}
                         />
                     </FormControl>
                     <FormControl className={classes.margin}>
                         <InputLabel htmlFor="input-with-icon-adornment">
-                            Bio
+                            First Name
                         </InputLabel>
                         <Input
                             id="input-with-icon-adornment"
-                            placeholder="Bio"
-                            name="bio"
+                            placeholder="Enter Firstname"
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <PersonIcon />
+                                </InputAdornment>
+                            }
+                            name="first_name"
+                            onChange={onChange}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.margin}>
+                        <InputLabel htmlFor="input-with-icon-adornment">
+                            Last Name
+                        </InputLabel>
+                        <Input
+                            id="input-with-icon-adornment"
+                            placeholder="Enter Lastname"
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <PersonIcon />
+                                </InputAdornment>
+                            }
+                            name="last_name"
+                            onChange={onChange}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.margin}>
+                        <InputLabel htmlFor="input-with-icon-adornment">
+                            Occupation
+                        </InputLabel>
+                        <Input
+                            id="input-with-icon-adornment"
+                            placeholder="Enter Occupation"
+                            name="occupation"
                             onChange={onChange}
                             startAdornment={
                                 <InputAdornment position="start">
@@ -173,40 +206,35 @@ const Party = (props) => {
                         />
                     </FormControl>
                     <FormControl className={classes.margin}>
-                        <InputLabel htmlFor="input-with-icon-adornment">
-                            Year Established
-                        </InputLabel>
-                        <Input
-                            id="input-with-icon-adornment"
-                            placeholder="Year"
-                            name="established"
+                        <InputLabel htmlFor="gender">Gender</InputLabel>
+                        <Select
+                            id="gender"
                             onChange={onChange}
+                            placeholder="Select Gender"
+                            name="gender"
                             startAdornment={
                                 <InputAdornment position="start">
                                     <EventIcon />
                                 </InputAdornment>
                             }
-                        />
+                        >
+                            <MenuItem value="Male">Male</MenuItem>
+                            <MenuItem value="Female">Female</MenuItem>
+                        </Select>
                     </FormControl>
                     <FormControl className={classes.margin}>
-                        <InputLabel>Party Logo</InputLabel>
-                        <label htmlFor="upload-logo">
-                            <Button component="span" className={classes.button}>
-                                Select Party Image
-                            </Button>
-                        </label>
-                        <Input
-                            id="upload-logo"
-                            placeholder="Logo"
-                            accept="image/*"
-                            type="file"
-                            name="logo"
+                        <TextField
+                            id="date"
+                            label="Birthday"
+                            type="date"
+                            name="dob"
                             onChange={onChange}
-                            data-max-size="2000"
-                            style={{ display: 'none' }}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                             startAdornment={
                                 <InputAdornment position="start">
-                                    <CropOriginalIcon />
+                                    <EventIcon />
                                 </InputAdornment>
                             }
                         />
@@ -218,15 +246,16 @@ const Party = (props) => {
                             type="submit"
                             color="primary"
                         >
-                            Add Party
-                            {
-                                       props.party.isLoading ? 
-                                       <CircularProgress
-                                        className={classes.progress}
-                                        size={20}
-                                        style={{ color: 'white' }}
-                                    />: ''
-                                   } 
+                            Add Voter
+                            {props.voter.isLoading ? (
+                                <CircularProgress
+                                    className={classes.progress}
+                                    size={20}
+                                    style={{ color: 'white' }}
+                                />
+                            ) : (
+                                ''
+                            )}
                         </Button>
                     </div>
                 </form>
@@ -235,16 +264,16 @@ const Party = (props) => {
     );
 };
 
-addParty.propTypes = {
+addVoter.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
     error: state.errors,
     success: state.success,
-    party: state.parties
+    voter: state.voters,
 });
 export const cleanUp_ = () => cleanUp();
 
 export default withStyles(styles)(
-    connect(mapStateToProps, { addParty, cleanUp_ })(Party)
+    connect(mapStateToProps, { addVoter, cleanUp_ })(Voter)
 );

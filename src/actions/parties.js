@@ -18,7 +18,7 @@ export const cleanUp = () => ({
 export const getParties = () => async (dispatch) => {
     try {
         const result = await axiosCall({ path: '/api/v1/parties', payload: null, method: 'get' });
-        console.log('the result', result)
+        
         dispatch({
             type: GET_PARTIES,
             payload: result,

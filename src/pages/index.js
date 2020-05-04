@@ -63,10 +63,18 @@ import Widgets from './Widgets/Widgets';
 
 // Candidates
 import AddCandidate from './AddCandidate/AddCandidate';
+import ListCandidates from './ListCandidates/ListCandidates'
 
 // Political Parties
 import AddParty from './AddParty/AddParty';
 import ListParties from './ListParties/ListParties';
+
+// Candidates
+import AddVoter from './AddVoter/AddVoter';
+import ListVoters from './ListVoters/ListVoters';
+
+// Result
+import Results from './Results/Results';
 
 export {
   Home,
@@ -121,5 +129,9 @@ export {
   Tooltips,
   AddCandidate,
   AddParty,
-  ListParties
+  ListParties,
+  ListCandidates,
+  AddVoter,
+  ListVoters,
+  Results
 };

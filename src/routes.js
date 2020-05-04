@@ -1,5 +1,17 @@
 // Pages
-import { Calendar, Home, Media, Widgets, AddCandidate, AddParty, ListParties } from './pages';
+import {
+    Calendar,
+    Home,
+    Media,
+    Widgets,
+    AddCandidate,
+    AddParty,
+    ListParties,
+    ListCandidates,
+    AddVoter,
+    ListVoters,
+    Results
+} from './pages';
 
 import AppsIcon from '@material-ui/icons/Apps';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -48,36 +60,36 @@ export default {
                     component: AddCandidate,
                 },
                 {
-                    path: '/media',
+                    path: '/list-candidates',
                     name: 'List Candidates',
-                    component: Media,
+                    component: ListCandidates,
                 },
             ],
         },
         {
-            path: '/apps',
+            path: '/voters',
             name: 'Voters',
             type: 'submenu',
             icon: FaceIcon,
             children: [
                 {
-                    path: '/calendar',
+                    path: '/add-voter/',
                     name: 'Add Voter',
-                    component: Calendar,
+                    component: AddVoter,
                 },
                 {
-                    path: '/media',
+                    path: '/list-voters',
                     name: 'List Voters',
-                    component: Media,
+                    component: ListVoters,
                 },
             ],
         },
         {
-            path: '/widgets',
+            path: '/results',
             name: 'Results',
             type: 'link',
             icon: EqualizerIcon,
-            component: Widgets,
+            component: Results,
         },
         {
             path: 'https://encrisoft.com',
