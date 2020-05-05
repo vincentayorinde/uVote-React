@@ -40,7 +40,6 @@ import NotFound from './Errors/NotFound';
 import Paper from './Material/paper';
 import PasswordReset from './Authentication/PasswordReset';
 import Pickers from './Material/pickers';
-import PricingPage from './Pages/Pricing';
 // Ecommerce
 import Products from './Ecommerce/Products';
 import Progress from './Material/progress';
@@ -76,6 +75,10 @@ import ListVoters from './ListVoters/ListVoters';
 // Result
 import Results from './Results/Results';
 
+// Vote
+import Vote from './Vote/Vote';
+import CheckVoter from './Vote/CheckVoter';
+
 export {
   Home,
   Calendar,
@@ -87,7 +90,6 @@ export {
   Leaflet,
   Blank,
   Invoice,
-  PricingPage,
   TimelinePage,
   Taskboard,
   Widgets,
@@ -133,5 +135,7 @@ export {
   ListCandidates,
   AddVoter,
   ListVoters,
-  Results
+  Results,
+  Vote,
+  CheckVoter
 };

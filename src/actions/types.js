@@ -17,7 +17,14 @@ export const DELETE_VOTER = 'DELETE_VOTER';
 export const ADD_VOTER = 'ADD_VOTER';
 
 // RESULTS
-export const GET_RESULTS = 'GET_RESULTS'
+export const GET_RESULTS = 'GET_RESULTS';
+
+// CAST VOTE
+export const CAST_VOTE = 'CAST_VOTE';
+
+// CHECK VOTER
+export const CHECK_VOTER = 'CHECK_VOTER';
+export const FOUND_VOTER = 'FOUND_VOTER';
 
 export const USER_LOADING = 'USER_LOADING';
 export const USER_LOADED = 'USER_LOADED';
@@ -27,8 +34,7 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const CLEAN_UP_AUTH = 'CLEAN_UP_AUTH';
 
-
-export const GET_ERRORS = 'GET_ERRORS'
-export const GET_SUCCESS = 'GET_SUCCESS'
-export const CLEAN_UP = 'CLEAN_UP'
-export const LOADING = 'LOADING'
+export const GET_ERRORS = 'GET_ERRORS';
+export const GET_SUCCESS = 'GET_SUCCESS';
+export const CLEAN_UP = 'CLEAN_UP';
+export const LOADING = 'LOADING';

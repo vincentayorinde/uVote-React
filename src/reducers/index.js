@@ -6,6 +6,7 @@ import auth from './auth';
 import candidates from './candidates';
 import voters from './voters';
 import results from './results';
+import vote from './vote';
 
 export default combineReducers({
     parties,
@@ -14,5 +15,6 @@ export default combineReducers({
     auth,
     candidates,
     voters,
-    results
+    results,
+    vote
 });

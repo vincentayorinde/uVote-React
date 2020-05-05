@@ -5,6 +5,8 @@ import {
     PasswordReset,
     Signin,
     Signup,
+    Vote,
+    CheckVoter
 } from './pages';
 import {
     BrowserRouter,
@@ -34,6 +36,8 @@ render(
                     <Route exact path="/forgot" component={PasswordReset} />
                     <Route exact path="/signin" component={Signin} />
                     <Route exact path="/signup" component={Signup} />
+                    <Route exact path="/vote" component={Vote} />
+                    <Route exact path="/check-voter" component={CheckVoter} />
                     <PrivateRoute path="/" component={Dashboard} />
                 </Switch>
             </BrowserRouter>

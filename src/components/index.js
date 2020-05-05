@@ -9,7 +9,7 @@ import Message from './Message/Message';
 import NewsCard from './Cards/NewsCard';
 import NotificationCenter from './NotificationCenter/NotificationCenter';
 import PostCard from './Cards/PostCard';
-import Pricing from './Pricing/Pricing';
+import Candidate from './Candidate/Candidate';
 import ProductCard from './Cards/ProductCard';
 import ProfileCard from './Cards/ProfileCard';
 import Sidebar from './Sidebar/Sidebar';
@@ -29,7 +29,7 @@ export {
   NotificationCenter,
   ActivityStream,
   Timeline,
-  Pricing,
+  Candidate,
   ImageStatCard,
   MapCard,
   NewsCard,
