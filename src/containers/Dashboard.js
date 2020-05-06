@@ -1,4 +1,4 @@
-import { Header, NotificationCenter, Sidebar, Workspace } from "../components";
+import { Header, Sidebar, Workspace } from "../components";
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
@@ -175,10 +175,10 @@ const Dashboard = ({ history }) => {
           toggleDrawer={handleDrawerToggle}
         />
         <Workspace opened={opened}>{getRoutes}</Workspace>
-        <NotificationCenter
+        {/* <NotificationCenter
           notificationsOpen={notificationsOpen}
           toogleNotifications={handleNotificationToggle}
-        />
+        /> */}
       </div>
 
       <Hidden xsDown>

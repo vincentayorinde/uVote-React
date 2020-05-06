@@ -12,6 +12,9 @@ import { connect } from 'react-redux';
 import Input from '@material-ui/core/Input';
 
 const useStyles = makeStyles((theme) => ({
+    inputs:{
+        display: 'none'
+    },
     card: {
         textAlign: 'center',
         cursor: 'default',
@@ -119,10 +122,10 @@ const Candidate = ({
                 <Input
                     id="candidateId"
                     name="candidateId"
-                    hidden
+                    className={classes.inputs}
                     value={candidatesId}
                 />
-                <Input id="votersId" name="votersId" hidden value={votersId} />
+                <Input id="votersId" name="votersId" className={classes.inputs} value={votersId} />
                 <CardActions className={classes.actions} disableSpacing>
                     <Button
                         type="submit"

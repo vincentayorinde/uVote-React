@@ -19,6 +19,9 @@ export const ADD_VOTER = 'ADD_VOTER';
 // RESULTS
 export const GET_RESULTS = 'GET_RESULTS';
 
+// GET STATS
+export const GET_STATS = 'GET_STATS'
+
 // CAST VOTE
 export const CAST_VOTE = 'CAST_VOTE';
 

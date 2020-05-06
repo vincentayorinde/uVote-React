@@ -1,10 +1,6 @@
 import {
-    BackendError,
-    Lockscreen,
     NotFound,
-    PasswordReset,
     Signin,
-    Signup,
     Vote,
     CheckVoter
 } from './pages';
@@ -31,11 +27,7 @@ render(
             <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <Switch>
                     <Route exact path="/404" component={NotFound} />
-                    <Route exact path="/500" component={BackendError} />
-                    <Route exact path="/Lockscreen" component={Lockscreen} />
-                    <Route exact path="/forgot" component={PasswordReset} />
                     <Route exact path="/signin" component={Signin} />
-                    <Route exact path="/signup" component={Signup} />
                     <Route exact path="/vote" component={Vote} />
                     <Route exact path="/check-voter" component={CheckVoter} />
                     <PrivateRoute path="/" component={Dashboard} />

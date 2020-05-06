@@ -1,222 +1,164 @@
-import { Bar, Bubble } from "react-chartjs-2";
-import {
-  NewsCard,
-  PostCard,
-  StatCard,
-  WeatherCard,
-  Wrapper
-} from "../../components";
-import React, { useState } from "react";
-import { mockDashboard, mockFeed } from "../../utils/mock";
+import { StatCard, Wrapper } from '../../components';
+import React, { useState, useEffect } from 'react';
 
-import Avatar from "@material-ui/core/Avatar";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import EmailIcon from "@material-ui/icons/Email";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreIcon from "@material-ui/icons/More";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
-import Paper from "@material-ui/core/Paper";
-import PhoneIcon from "@material-ui/icons/Phone";
-import SettingsIcon from "@material-ui/icons/Settings";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import red from "@material-ui/core/colors/red";
+import Avatar from '@material-ui/core/Avatar';
+import EmailIcon from '@material-ui/icons/Email';
+import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Paper from '@material-ui/core/Paper';
+import PhoneIcon from '@material-ui/icons/Phone';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import { connect } from 'react-redux';
+import { getResults, cleanUp } from '../../actions/results';
+import { getStats } from '../../actions/statistics';
+import PersonIcon from '@material-ui/icons/Person';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
-let id = 0;
-function createData(name, date, progress) {
-  id += 1;
-  return { id, name, date, progress };
-}
+const imgStyle = {
+    width: 60,
+    height: 60,
+};
+let candidate = {};
+let name = [];
+let new_ = [];
+let statistics;
 
-const data = [
-  createData("UI prototyping", "January 23", 67),
-  createData("Design", "February 2", 87),
-  createData("Development", "March 30", 54),
-  createData("Testing and delivery", "April 12", 34),
-  createData("Ongoing maintanance", "May 28", 56),
-  createData("Extensive review", "December 3", 56),
-  createData("Extensive testing", "December 25", 56)
-];
+const Home = (props) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const handleClose = () => setAnchorEl(null);
+    const { results, stats } = props;
+    console.log('the props', props);
+    useEffect(() => {
+        props.getResults();
+        props.getStats();
+        return () => {
+            props.cleanUp_();
+        };
+    }, []);
+    candidate = {};
+    if (results && results.isLoading === false && results.loaded === true) {
+        candidate = results && results.results.votes;
+        if (candidate) {
+            name = [];
+            Object.keys(candidate).map((key) => {
+                name.push(key + ',' + candidate[key]);
+            });
+        }
+        new_ = [];
+        for (let i = 0; i < name.length; i++) {
+            new_.push(name[i].split(/[\s,]+/));
+        }
+    }
+    if (stats && stats.isLoading === false && stats.loaded === true)
+        statistics = stats.stats.stats;
+    if (statistics) console.log('the statis', statistics);
+    if (new_) console.log('the new', new_);
+    return (
+        <Wrapper>
+            <Grid container spacing={1}>
+                <Grid item xs={12} sm={6} md={3}>
+                    <StatCard
+                        type="fill"
+                        title="Voters"
+                        value={statistics ? statistics.voters : 0}
+                        icon={<PeopleAltIcon />}
+                        color="#3f51b5"
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                    <StatCard
+                        type="fill"
+                        title="Candidates"
+                        value={statistics ? statistics.candidates : 0}
+                        icon={<PersonIcon />}
+                        color="#9c27b0"
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                    <StatCard
+                        type="fill"
+                        title="Parties"
+                        value={statistics ? statistics.parties : 0}
+                        icon={<HomeWorkIcon />}
+                        color="#f44336"
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                    <StatCard
+                        type="fill"
+                        title="Votes"
+                        value={statistics ? statistics.votes : 0}
+                        icon={<CheckBoxIcon />}
+                        color="#eaa219"
+                    />
+                </Grid>
+                <Grid item xs={12} sm={12} md={8}>
+                    <Paper className="table-responsive">
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Image</TableCell>
+                                    <TableCell>Candidate</TableCell>
+                                    <TableCell>Votes</TableCell>
+                                    <TableCell>Percentage</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {new_
+                                    ? new_.map((n) => (
+                                          <TableRow key={n[3]}>
+                                              <TableCell>
+                                                  <Avatar
+                                                      alt={`${n[0]} ${n[1]}`}
+                                                      src={n[2]}
+                                                      className={imgStyle}
+                                                  />
+                                              </TableCell>
 
-const Home = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = event => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
-
-  const chartMenu = (
-    <Menu
-      id="chart-menu"
-      anchorEl={anchorEl}
-      open={Boolean(anchorEl)}
-      onClose={handleClose}
-    >
-      <MenuItem onClick={handleClose}>
-        <ListItemIcon>
-          <SettingsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Settings" />
-      </MenuItem>
-      <MenuItem onClick={handleClose}>
-        <ListItemIcon>
-          <MoreIcon />
-        </ListItemIcon>
-        <ListItemText primary="View more" />
-      </MenuItem>
-      <MenuItem onClick={handleClose}>
-        <ListItemIcon>
-          <NotificationsOffIcon />
-        </ListItemIcon>
-        <ListItemText primary="Disable notifications" />
-      </MenuItem>
-      <MenuItem onClick={handleClose}>
-        <ListItemIcon>
-          <ExitToAppIcon />
-        </ListItemIcon>
-        <ListItemText primary="Remove panel" />
-      </MenuItem>
-    </Menu>
-  );
-
-  return (
-    <Wrapper>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            type="fill"
-            title="Campaigns"
-            value={103}
-            icon={<LocalOfferIcon />}
-            color="#3f51b5"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            type="fill"
-            title="Customers"
-            value={230}
-            icon={<PhoneIcon />}
-            color="#9c27b0"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            type="fill"
-            title="Queries"
-            value={323}
-            icon={<NotificationsIcon />}
-            color="#f44336"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            type="fill"
-            title="Opens"
-            value={870}
-            icon={<EmailIcon />}
-            color="#ffd740"
-          />
-        </Grid>
-        {chartMenu}
-        {mockDashboard.map((chart, index) => (
-          <Grid item xs={12} sm={12} md={4} key={index}>
-            <Card>
-              <CardHeader
-                subheader={chart.title}
-                action={
-                  <IconButton id={`${index}-menu-button`} onClick={handleClick}>
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-              />
-              <CardContent>
-                {chart.type === "bar" && (
-                  <Bar
-                    data={chart.data}
-                    height={chart.height}
-                    options={chart.options}
-                  />
-                )}
-                {chart.type === "bubble" && (
-                  <Bubble
-                    data={chart.data}
-                    height={chart.height}
-                    options={chart.options}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-        <Grid item xs={12} sm={12} md={8}>
-          <Paper className="table-responsive">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Project</TableCell>
-                  <TableCell>Due Date</TableCell>
-                  <TableCell>Current Progress</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map(n => (
-                  <TableRow key={n.id}>
-                    <TableCell component="th" scope="row">
-                      {n.name}
-                    </TableCell>
-                    <TableCell>{n.date}</TableCell>
-                    <TableCell>
-                      {
-                        <LinearProgress
-                          variant="determinate"
-                          value={n.progress}
-                        />
-                      }
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={12} md={4}>
-          <NewsCard subtitle="Last updated 24 mins ago" feed={mockFeed} />
-        </Grid>
-        <Grid item sm={12} md={6}>
-          <PostCard
-            title="Shrimp and Chorizo Paella"
-            subtitle="Yesterday"
-            image={`${process.env.PUBLIC_URL}/static/images/unsplash/2.jpg`}
-            imageHeight={200}
-            text="Phileas Fogg and Aouda went on board, where they found Fix already installed. Below deck was a square cabin, of which the walls bulged out in the form of cots, above a circular divan; in the centre was a table provided with a swinging lamp."
-            avatar={
-              <Avatar aria-label="Post" style={{ backgroundColor: red[500] }}>
-                R
-              </Avatar>
-            }
-          />
-        </Grid>
-        <Grid item sm={12} md={6}>
-          <WeatherCard city="london" country="uk" days={7} />
-        </Grid>
-      </Grid>
-    </Wrapper>
-  );
+                                              <TableCell
+                                                  component="th"
+                                                  scope="row"
+                                              >
+                                                  {`${n[0]} ${n[1]}`}
+                                              </TableCell>
+                                              <TableCell>{n[5]}</TableCell>
+                                              <TableCell>
+                                                  {
+                                                      <LinearProgress
+                                                          variant="determinate"
+                                                          value={n[4]}
+                                                      />
+                                                  }
+                                                  {`${n[4]} %`}
+                                              </TableCell>
+                                          </TableRow>
+                                      ))
+                                    : ''}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Wrapper>
+    );
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+    error: state.errors,
+    success: state.success,
+    results: state.results,
+    stats: state.statistics,
+});
+export const cleanUp_ = () => cleanUp();
+
+export default connect(mapStateToProps, { getResults, cleanUp_, getStats })(
+    Home
+);

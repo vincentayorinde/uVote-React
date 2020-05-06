@@ -1,4 +1,6 @@
 import axios from 'axios';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 export const axiosCall = async ({
     path, payload, method, contentType
@@ -22,6 +24,10 @@ export const axiosCall = async ({
       return data;
     } catch (error) {
       const { response } = error;
+      if(response.data.message === "Unauthorized")  {
+        window.location.href = `/signin`;
+        localStorage.clear()
+      }
       if (response.data.message) {
           console.log('the util axios error', response.data)
         return;

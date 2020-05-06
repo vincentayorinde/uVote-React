@@ -24,6 +24,8 @@ import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { logout, cleanUpAuth } from '../../actions/auth';
+import PersonIcon from '@material-ui/icons/Person';
+
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -144,7 +146,7 @@ const Header = ({
 
                 <Hidden xsDown>
                     <div className={classes.searchWrapper}>
-                        <form className={classes.searchForm}>
+                        {/* <form className={classes.searchForm}>
                             <IconButton
                                 aria-label="Search"
                                 className={classes.searchIcon}
@@ -157,7 +159,7 @@ const Header = ({
                                 placeholder="Search"
                                 autoFocus={true}
                             />
-                        </form>
+                        </form> */}
                     </div>
                 </Hidden>
 
@@ -182,11 +184,11 @@ const Header = ({
                     </IconButton>
                 </Hidden>
 
-                <IconButton color="inherit" onClick={handleNotificationToggle}>
+                {/* <IconButton color="inherit" onClick={handleNotificationToggle}>
                     <Badge badgeContent={5} color="secondary">
                         <NotificationsIcon />
                     </Badge>
-                </IconButton>
+                </IconButton> */}
 
                 <IconButton
                     aria-label="User Settings"
@@ -195,7 +197,7 @@ const Header = ({
                     color="inherit"
                     onClick={handleSettingdToggle}
                 >
-                    <MoreVertIcon />
+                    <PersonIcon />
                 </IconButton>
 
                 <Menu
@@ -204,7 +206,7 @@ const Header = ({
                     open={Boolean(anchorEl)}
                     onClose={handleCloseMenu}
                 >
-                    <MenuItem onClick={handleCloseMenu}>
+                    {/* <MenuItem onClick={handleCloseMenu}>
                         <ListItemIcon>
                             <SettingsIcon />
                         </ListItemIcon>
@@ -221,7 +223,7 @@ const Header = ({
                             <NotificationsOffIcon />
                         </ListItemIcon>
                         <ListItemText primary="Disable notifications" />
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem onClick={handleCloseMenu}>
                         <ListItemIcon>
                             <ExitToAppIcon />

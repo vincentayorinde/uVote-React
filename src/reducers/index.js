@@ -7,6 +7,7 @@ import candidates from './candidates';
 import voters from './voters';
 import results from './results';
 import vote from './vote';
+import statistics from './statistics';
 
 export default combineReducers({
     parties,
@@ -16,5 +17,6 @@ export default combineReducers({
     candidates,
     voters,
     results,
-    vote
+    vote,
+    statistics
 });
