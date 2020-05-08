@@ -13,7 +13,6 @@ phases:
         build:
             commands:
                 - echo Running migrations...
-                - npm run migrage
                 - echo Building...
                 - npm start
 
