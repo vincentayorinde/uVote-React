@@ -52,7 +52,7 @@ const Party = (props) => {
         established: '',
     });
     const [alert, setAlert] = useState({ state: false });
-    console.log('the alert', alert);
+    
     const onChange = (e) => {
         e.persist();
         setValues((prevState) => ({
@@ -65,20 +65,19 @@ const Party = (props) => {
         }
     };
     const { classes, error, success, history } = props;
-    console.log('the props', props);
+ 
 
     useEffect(() => {
         if (error.error) {
             if (Array.isArray(error.message.message)) {
                 let text_ = 'Issues: ';
-                console.log('the text_ >>>', text_);
+               
                 for (let i = 0; i < error.message.message.length; i += 1) {
                     text_ +=
                         ', No. ' + i + ': ' + error.message.message[i].message;
                 }
                 text = text_;
                 type = 'error';
-                console.log('the error text >>>>>', text);
                 setAlert({ state: true });
 
                 setTimeout(() => {
@@ -115,7 +114,7 @@ const Party = (props) => {
 
     const submit = (e) => {
         e.preventDefault();
-        console.log('the values', values);
+      
         props.addParty(values);
     };
 

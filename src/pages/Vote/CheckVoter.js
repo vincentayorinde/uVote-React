@@ -66,9 +66,7 @@ const Voter = (props) => {
         }));
     };
     const { error, success, history } = props;
-    console.log('the voter props', props)
     useEffect(() => {
-        console.log('the errors', error);
         if (error.error) {
             if (Array.isArray(error.message.message)) {
                 let text_ = 'Issues: ';
@@ -78,14 +76,12 @@ const Voter = (props) => {
                 }
                 text = text_;
                 type = 'error';
-                console.log('the error text >>>>>', text);
                 setAlert({ state: true });
 
                 setTimeout(() => {
                     setAlert({ state: false });
                 }, 6000);
             } else {
-                console.log('the >>>', error.message);
                 setAlert({ state: true });
                 text =
                     error.message.error ||
@@ -117,7 +113,6 @@ const Voter = (props) => {
     }, [success, error]);
     const submit = (e) => {
         e.preventDefault();
-        console.log('the values', values)
         props.checkVoter(values);
     };
     const classes = useStyles();

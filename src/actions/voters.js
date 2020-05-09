@@ -16,7 +16,7 @@ export const cleanUp = () => ({
 export const getVoters = () => async (dispatch) => {
     try {
         const result = await axiosCall({ path: '/api/v1/voters', payload: null, method: 'get' });
-        console.log('the result', result)
+       
         dispatch({
             type: GET_VOTERS,
             payload: result,
@@ -29,7 +29,7 @@ export const getVoters = () => async (dispatch) => {
 export const updateVoter = (id, updateData) => async (dispatch) => {
     try {
         const result = await axiosCall({ path: `/api/v1/voters/${id}`, payload: updateData, method: 'put', });
-        console.log('the result', result)
+    
         dispatch({
             type: GET_SUCCESS,
             payload: result,
@@ -42,7 +42,7 @@ export const updateVoter = (id, updateData) => async (dispatch) => {
 export const deleteVoter = (id) => async (dispatch) => {
     try {
         const result = await axiosCall({ path: `/api/v1/voters/${id}`, payload: null, method: 'delete', });
-        console.log('the result', result)
+        
         dispatch({
             type: GET_SUCCESS,
             payload: result,
@@ -56,14 +56,10 @@ export const addVoter = (voter) => async (dispatch) => {
     dispatch({
         type: LOADING
     });
-    // const candidateData = new FormData();
-    // Object.keys(candidate).map(async (key) => {
-    //     candidateData.append(key, candidate[key]);
-    // });
-    // console.log('the candidate', candidateData)
+
     try {
         const result = await axiosCall({ path: '/api/v1/voters/add', payload: voter, method: 'post'});
-        console.log('the result', result)
+      
         dispatch({
             type: GET_SUCCESS,
             payload: result,

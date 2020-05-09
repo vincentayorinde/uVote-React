@@ -35,7 +35,6 @@ const Home = (props) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const handleClose = () => setAnchorEl(null);
     const { results, stats } = props;
-    console.log('the props', props);
     useEffect(() => {
         props.getResults();
         props.getStats();
@@ -44,7 +43,7 @@ const Home = (props) => {
         };
     }, []);
     candidate = {};
-    if (results && results.isLoading === false && results.loaded === true) {
+    if (results && results.isLoading === false && results.loaded === true && results.results !== undefined) {
         candidate = results && results.results.votes;
         if (candidate) {
             name = [];
@@ -57,10 +56,10 @@ const Home = (props) => {
             new_.push(name[i].split(/[\s,]+/));
         }
     }
-    if (stats && stats.isLoading === false && stats.loaded === true)
+    if (stats && stats.isLoading === false && stats.loaded === true && stats.stats !== undefined)
         statistics = stats.stats.stats;
-    if (statistics) console.log('the statis', statistics);
-    if (new_) console.log('the new', new_);
+    
+  
     return (
         <Wrapper>
             <Grid container spacing={1}>

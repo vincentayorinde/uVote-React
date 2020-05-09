@@ -35,7 +35,6 @@ const styles = (theme) => ({
 
 const Parties = (props) => {
     const { classes, parties } = props;
-
     const [state, setState] = useState({
         columns: [
             { title: 'Name', field: 'name' },
@@ -49,6 +48,7 @@ const Parties = (props) => {
     }, []);
 
     useEffect(() => {
+        if(parties !== undefined){
         if (parties.allParties && parties.allParties.rows) {
             setState((prevState) => {
                 const data = [
@@ -57,7 +57,8 @@ const Parties = (props) => {
                 return { ...prevState, data };
             });
         }
-    }, [parties.allParties && parties.allParties.rows]);
+    }
+    }, [ parties ? parties.allParties && parties.allParties.rows : '']);
 
     const updateParty = (data) => props.updateParty(data.id, data);
     const deleteParty = (data) => props.deleteParty(data.id);

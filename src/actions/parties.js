@@ -31,7 +31,7 @@ export const getParties = () => async (dispatch) => {
 export const updateParty = (id, updateData) => async (dispatch) => {
     try {
         const result = await axiosCall({ path: `/api/v1/parties/${id}`, payload: updateData, method: 'put', });
-        console.log('the result', result)
+
         dispatch({
             type: UPDATE_PARTY,
             payload: result,
@@ -44,7 +44,7 @@ export const updateParty = (id, updateData) => async (dispatch) => {
 export const deleteParty = (id) => async (dispatch) => {
     try {
         const result = await axiosCall({ path: `/api/v1/parties/${id}`, payload: null, method: 'delete', });
-        console.log('the result', result)
+     
         dispatch({
             type: DELETE_PARTY,
             payload: result,
@@ -64,7 +64,7 @@ export const addParty = (party) => async (dispatch) => {
     });
     try {
         const result = await axiosCall({ path: '/api/v1/parties/add', payload: partyData, method: 'post', contentType:'multipart/form-data' });
-        console.log('the result', result)
+       
         dispatch({
             type: GET_SUCCESS,
             payload: result,

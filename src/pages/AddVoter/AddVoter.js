@@ -65,14 +65,14 @@ const Voter = (props) => {
         if (error.error) {
             if (Array.isArray(error.message.message)) {
                 let text_ = 'Issues: ';
-                console.log('the text_ >>>', text_);
+              
                 for (let i = 0; i < error.message.message.length; i += 1) {
                     text_ +=
                         ', No. ' + i + ': ' + error.message.message[i].message;
                 }
                 text = text_;
                 type = 'error';
-                console.log('the error text >>>>>', text);
+               
                 setAlert({ state: true });
 
                 setTimeout(() => {
@@ -111,7 +111,6 @@ const Voter = (props) => {
 
     const submit = (e) => {
         e.preventDefault();
-        console.log('the values', values);
         props.addVoter(values);
     };
 

@@ -69,7 +69,7 @@ const Signin = (props) => {
     };
     const { error, success, history } = props;
     useEffect(() => {
-        console.log('the errors', error);
+        
         if (error.error) {
             if (Array.isArray(error.message.message)) {
                 let text_ = 'Issues: ';
@@ -79,14 +79,14 @@ const Signin = (props) => {
                 }
                 text = text_;
                 type = 'error';
-                console.log('the error text >>>>>', text);
+              
                 setAlert({ state: true });
 
                 setTimeout(() => {
                     setAlert({ state: false });
                 }, 6000);
             } else {
-                console.log('the >>>', error.message);
+                
                 setAlert({ state: true });
                 text =
                     error.message.error ||

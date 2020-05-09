@@ -27,7 +27,6 @@ let candidatesShow = []
 let voter;
 const Vote = (props) => {
     const { error, success, candidates, vote } =props;
-    console.log('the props', props);
     const classes = useStyles();
 
     useEffect(() => {
@@ -38,8 +37,6 @@ const Vote = (props) => {
     }, []);
     candidatesShow = candidates.allCandidates && candidates.allCandidates.rows
     voter = vote.voter && vote.voter.foundVoter;
-    console.log('the voter', voter)
-    console.log('the candidates', candidatesShow )
     if(voter == null) return <Redirect to="/check-voter" />;
 
     if(vote.vote && vote.vote.vote) {

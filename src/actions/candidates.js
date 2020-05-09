@@ -18,7 +18,7 @@ export const cleanUp = () => ({
 export const getCandidates = () => async (dispatch) => {
     try {
         const result = await axiosCall({ path: '/api/v1/candidates', payload: null, method: 'get' });
-        console.log('the result', result)
+       
         dispatch({
             type: GET_CANDIDATES,
             payload: result,
@@ -31,7 +31,7 @@ export const getCandidates = () => async (dispatch) => {
 export const updateCanditate = (id, updateData) => async (dispatch) => {
     try {
         const result = await axiosCall({ path: `/api/v1/candidates/${id}`, payload: updateData, method: 'put', });
-        console.log('the result', result)
+      
         dispatch({
             type: UPDATE_CANDITATE,
             payload: result,
@@ -44,7 +44,7 @@ export const updateCanditate = (id, updateData) => async (dispatch) => {
 export const deleteCandidate = (id) => async (dispatch) => {
     try {
         const result = await axiosCall({ path: `/api/v1/candidates/${id}`, payload: null, method: 'delete', });
-        console.log('the result', result)
+       
         dispatch({
             type: DELETE_CANDIDATE,
             payload: result,
@@ -62,10 +62,9 @@ export const addCandidate = (candidate) => async (dispatch) => {
     Object.keys(candidate).map(async (key) => {
         candidateData.append(key, candidate[key]);
     });
-    console.log('the candidate', candidateData)
     try {
         const result = await axiosCall({ path: '/api/v1/candidates/add', payload: candidateData, method: 'post', contentType:'multipart/form-data' });
-        console.log('the result', result)
+       
         dispatch({
             type: GET_SUCCESS,
             payload: result,

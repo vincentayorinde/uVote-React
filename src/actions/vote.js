@@ -20,7 +20,7 @@ export const checkVoter = (votersId) => async (dispatch) => {
     });
     try {
         const result = await axiosCall({ path: '/api/v1/vote/check-voter', payload: votersId, method: 'post'});
-        console.log('the result', result)
+
         dispatch({
             type: CHECK_VOTER,
             payload: result,
@@ -36,7 +36,7 @@ export const castVote = (vote) => async (dispatch) => {
     });
     try {
         const result = await axiosCall({ path: '/api/v1/vote', payload: vote, method: 'post'});
-        console.log('the result', result)
+        
         dispatch({
             type: CAST_VOTE,
             payload: result,

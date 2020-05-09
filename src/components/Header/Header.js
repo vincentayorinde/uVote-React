@@ -97,7 +97,6 @@ const Header = ({
     toogleNotifications,
     ...props
 }) => {
-    console.log('the props', props);
     const takeout = () => {
         props.logout();
         props.cleanUpAuth();

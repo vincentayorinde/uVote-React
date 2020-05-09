@@ -17,7 +17,6 @@ export const cleanUpAuth = () => ({
 
 // LOAD USER
 export const loadUser = () => (dispatch, getState) => {
-    console.log('the state', getState())
     const token = getState().auth.token;
     // If token, add to headers congig
     if (token) {

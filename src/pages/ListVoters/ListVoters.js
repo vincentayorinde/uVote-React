@@ -40,7 +40,7 @@ let text;
 const Voters = (props) => {
     const { classes, voters, error, success } = props;
     const [alert, setAlert] = useState({ state: false });
-    console.log('the props in comp', props);
+ 
     const [state, setState] = useState({
         columns: [
             { title: 'Voter ID', field: 'voter_id' },
@@ -60,14 +60,12 @@ const Voters = (props) => {
         if (error.error) {
             if (Array.isArray(error.message.message)) {
                 let text_ = 'Issues: ';
-                console.log('the text_ >>>', text_);
                 for (let i = 0; i < error.message.message.length; i += 1) {
                     text_ +=
                         ', No. ' + i + ': ' + error.message.message[i].message;
                 }
                 text = text_;
                 type = 'error';
-                console.log('the error text >>>>>', text);
                 setAlert({ state: true });
 
                 setTimeout(() => {
@@ -102,13 +100,15 @@ const Voters = (props) => {
         }
     }, [success, error]);
     useEffect(() => {
+        if(voters !== undefined){
         if (voters.allVoters && voters.allVoters.rows) {
             setState((prevState) => {
                 const data = [...(voters.allVoters && voters.allVoters.rows)];
                 return { ...prevState, data };
             });
         }
-    }, [voters.allVoters && voters.allVoters.rows]);
+    }
+    }, [ voters ? voters.allVoters && voters.allVoters.rows : '']);
 
     const updateVoter = (data) => props.updateVoter(data.id, data);
     const deleteVoter = (data) => props.deleteVoter(data.id);

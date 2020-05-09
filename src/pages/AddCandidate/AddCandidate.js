@@ -51,7 +51,6 @@ let text;
 const Candidate = (props) => {
     const [values, setValues] = useState({});
     const [alert, setAlert] = useState({ state: false });
-    console.log('the alert', alert);
     const onChange = (e) => {
         e.persist();
         setValues((prevState) => ({
@@ -64,7 +63,7 @@ const Candidate = (props) => {
         }
     };
     const { classes, error, success, history } = props;
-    console.log('the props', props);
+    
     let parties = {};
     useEffect(() => {
         if (props.getParties()) props.getParties();
@@ -73,14 +72,13 @@ const Candidate = (props) => {
         if (error.error) {
             if (Array.isArray(error.message.message)) {
                 let text_ = 'Issues: ';
-                console.log('the text_ >>>', text_);
+                
                 for (let i = 0; i < error.message.message.length; i += 1) {
                     text_ +=
                         ', No. ' + i + ': ' + error.message.message[i].message;
                 }
                 text = text_;
                 type = 'error';
-                console.log('the error text >>>>>', text);
                 setAlert({ state: true });
 
                 setTimeout(() => {
@@ -119,7 +117,6 @@ const Candidate = (props) => {
 
     const submit = (e) => {
         e.preventDefault();
-        console.log('the values', values);
         props.addCandidate(values);
     };
 
@@ -228,7 +225,7 @@ const Candidate = (props) => {
                                 </InputAdornment>
                             }
                         >
-                            {props.parties.allParties &&
+                            {props.parties && props.parties.allParties &&
                             props.parties.allParties.rows ? (
                                 props.parties.allParties.rows.map((party) => {
                                     return (

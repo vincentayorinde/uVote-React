@@ -38,7 +38,6 @@ let name = [];
 let new_ = [];
 const Results = (props) => {
     const { classes, results, success } = props;
-    console.log('the props', props);
     useEffect(() => {
         props.getResults();
         return () => {
@@ -46,7 +45,7 @@ const Results = (props) => {
         };
     }, []);
     candidate = {};
-    if (results && results.isLoading === false && results.loaded === true) {
+    if (results && results.isLoading === false && results.loaded === true && results.results !== undefined) {
         candidate = results && results.results.votes;
         if (candidate) {
             name = [];
@@ -59,7 +58,6 @@ const Results = (props) => {
             new_.push(name[i].split(/[\s,]+/));
         }
     }
-    if (new_) console.log('the new', new_);
     return (
         <Card className={classes.card}>
             <AppBar
@@ -70,7 +68,7 @@ const Results = (props) => {
                 <Toolbar>
                     <Typography color="inherit" className="flexSpacer">
                         Results - Total Number of Votes (
-                        {results && results.results.count})
+                        {results && results.results !== undefined && results.results.count})
                     </Typography>
                 </Toolbar>
             </AppBar>

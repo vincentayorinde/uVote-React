@@ -97,7 +97,7 @@ const Candidate = ({
     };
     const submit = (e) => {
         e.preventDefault();
-        console.log('the values', values);
+      
         castVote(values);
     };
     const classes = useStyles();

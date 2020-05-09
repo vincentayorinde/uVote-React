@@ -24,12 +24,11 @@ export const axiosCall = async ({
       return data;
     } catch (error) {
       const { response } = error;
-      if(response.data.message === "Unauthorized")  {
-        window.location.href = `/signin`;
-        localStorage.clear()
-      }
+      // if(response.data.message === "Unauthorized")  {
+      //   window.location.href = `/signin`;
+      //   localStorage.clear()
+      // }
       if (response.data.message) {
-          console.log('the util axios error', response.data)
         return;
       }
       throw error;
